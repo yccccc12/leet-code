@@ -15,3 +15,7 @@ HAVING COUNT(email) > 1;
 SELECT c.name AS Customers FROM Customers c
 LEFT JOIN Orders o ON c.id = o.customerId
 WHERE o.customerId IS NULL;
+
+-- Problem 511
+SELECT player_id, MIN(event_date) AS first_login FROM Activity
+GROUP BY player_id;
