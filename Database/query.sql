@@ -19,3 +19,8 @@ WHERE o.customerId IS NULL;
 -- Problem 511
 SELECT player_id, MIN(event_date) AS first_login FROM Activity
 GROUP BY player_id;
+
+-- Problem 577
+SELECT e.name, b.bonus FROM Employee e
+LEFT JOIN Bonus b ON e.empId = b.empId
+WHERE b.bonus IS NULL OR b.bonus < 1000;
