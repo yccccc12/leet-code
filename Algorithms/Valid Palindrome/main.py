@@ -4,7 +4,7 @@ class Solution(object):
         :type s: str
         :rtype: bool
         """
-        str_s = "".join([c.lower() for c in s if c.isalpha()])
+        str_s = "".join([c.lower() for c in s if c.isalnum()])
         
         return str_s == str_s[::-1]
 
