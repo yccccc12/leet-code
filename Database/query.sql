@@ -44,14 +44,42 @@ WHERE referee_id != 2 OR referee_id IS NULL;
 SELECT name, population, area FROM World
 WHERE area >= 3000000 OR population >= 25000000;
 
+-- Problem 596
+SELECT class FROM Courses
+GROUP BY class
+HAVING COUNT(*) >= 5;
+
+-- Problem 619
+SELECT MAX(num) AS num FROM
+(
+    SELECT num FROM MyNumbers
+    GROUP BY num
+    HAVING COUNT(*) = 1
+) AS t;
+
 -- Problem 620
 SELECT * FROM Cinema
 WHERE description != "boring" AND id % 2 = 1
 ORDER BY rating DESC;
 
+-- Problem 1045
+SELECT customer_id FROM Customer
+GROUP BY customer_id
+HAVING COUNT(DISTINCT customer_id, product_key) = (SELECT COUNT(*) FROM Product);
+
 -- Problem 1068
 SELECT p.product_name, s.year, s.price FROM Sales s
 INNER JOIN Product p ON s.product_id = p.product_id;
+
+-- Problem 1070
+SELECT product_id, year AS first_year, quantity, price
+FROM Sales
+WHERE (product_id, year) IN
+(
+    SELECT product_id, MIN(year)
+    FROM Sales
+    GROUP BY product_id
+)
 
 -- Problem 1075
 SELECT 
@@ -60,6 +88,14 @@ SELECT
 FROM Project p 
 LEFT JOIN Employee e ON e.employee_id = p.employee_id
 GROUP BY p.project_id
+
+-- Problem 1141
+SELECT 
+    activity_date AS day,
+    COUNT(DISTINCT user_id) AS active_users
+FROM Activity
+WHERE activity_date > "2019-06-27" AND activity_date <= "2019-07-27"
+GROUP BY activity_date;
 
 -- Problem 1148
 SELECT DISTINCT(author_id) AS id FROM Views
@@ -138,7 +174,12 @@ GROUP BY a.machine_id;
 SELECT tweet_id FROM Tweets
 WHERE LENGTH(content) > 15;
 
--- Probelm 1757
+-- Problem 1729
+SELECT user_id, COUNT(*) AS followers_count FROM Followers
+GROUP BY user_id
+ORDER BY user_id ASC;
+
+-- Problem 1757
 SELECT product_id FROM Products
 WHERE low_fats = 'Y' AND recyclable = 'Y';
 
@@ -149,3 +190,7 @@ SELECT
 FROM Signups s
 LEFT JOIN Confirmations c ON s.user_id = c.user_id
 GROUP BY s.user_id;
+
+-- Problem 2356
+SELECT teacher_id, COUNT(DISTINCT teacher_id, subject_id) AS cnt FROM Teacher
+GROUP BY teacher_id;
