@@ -66,6 +66,31 @@ SELECT DISTINCT(author_id) AS id FROM Views
 WHERE author_id = viewer_id
 ORDER BY author_id;
 
+-- Problem 1174
+SELECT
+    ROUND(SUM(IF(order_date = customer_pref_delivery_date, 1, 0)) / COUNT(*) * 100, 2) AS immediate_percentage
+FROM Delivery
+WHERE (customer_id, order_date) IN (SELECT customer_id, MIN(order_date) FROM Delivery GROUP BY customer_id)
+
+-- Problem 1193
+SELECT
+    DATE_FORMAT(trans_date, "%Y-%m") AS month,
+    country, 
+    COUNT(*) AS trans_count,
+    SUM(IF(state = 'approved', 1, 0)) AS approved_count,
+    SUM(amount) AS trans_total_amount,
+    SUM(IF(state = 'approved', amount, 0)) AS approved_total_amount
+FROM Transactions
+GROUP BY month, country
+
+-- Problem 1211
+SELECT
+    query_name,
+    ROUND(AVG(rating / position), 2) AS quality,
+    ROUND(AVG(IF(rating < 3, 1, 0)) * 100, 2) AS poor_query_percentage
+FROM Queries
+GROUP BY query_name
+
 -- Problem 1251
 SELECT 
     p.product_id, 
@@ -91,6 +116,17 @@ SELECT customer_id, COUNT(*) AS count_no_trans FROM Visits v
 LEFT JOIN Transactions t ON v.visit_id = t.visit_id
 WHERE t.transaction_id IS NULL
 GROUP BY customer_id;
+
+-- Problem 1633
+SELECT 
+    r.contest_id, 
+    ROUND(
+        IFNULL(COUNT(*) / (SELECT COUNT(*) FROM Users), 0) * 100, 2
+    ) AS percentage
+FROM Register r
+LEFT JOIN Users u ON r.user_id = u.user_id
+GROUP BY r.contest_id
+ORDER BY percentage DESC, r.contest_id ASC;
 
 -- Problem 1661
 SELECT a.machine_id, ROUND(AVG(b.timestamp - a.timestamp), 3) AS processing_time FROM Activity a
