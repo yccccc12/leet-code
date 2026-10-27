@@ -207,6 +207,13 @@ FROM Signups s
 LEFT JOIN Confirmations c ON s.user_id = c.user_id
 GROUP BY s.user_id;
 
+-- Problem 1978
+SELECT employee_id FROM Employees
+WHERE manager_id NOT IN (
+    SELECT employee_id FROM Employees
+) AND salary < 30000
+ORDER BY employee_id;
+
 -- Problem 2356
 SELECT teacher_id, COUNT(DISTINCT teacher_id, subject_id) AS cnt FROM Teacher
 GROUP BY teacher_id;
