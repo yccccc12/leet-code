@@ -147,6 +147,14 @@ ORDER BY s.student_id, sub.subject_name
 SELECT u.unique_id, e.name FROM Employees e
 LEFT JOIN EmployeeUNI u ON e.id = u.id; 
 
+-- Problem 1517
+SELECT * FROM Users
+WHERE REGEXP_LIKE(mail, "^[a-zA-Z][a-zA-Z0-9._-]*@leetcode\\.com$", "c");
+
+-- Problem 1527
+SELECT * FROM Patients
+WHERE conditions LIKE "DIAB1%" OR conditions LIKE "% DIAB1%";
+
 -- Problem 1581
 SELECT customer_id, COUNT(*) AS count_no_trans FROM Visits v
 LEFT JOIN Transactions t ON v.visit_id = t.visit_id
@@ -169,6 +177,10 @@ SELECT a.machine_id, ROUND(AVG(b.timestamp - a.timestamp), 3) AS processing_time
 INNER JOIN Activity b ON a.machine_id = b.machine_id AND a.process_id = b.process_id
 WHERE a.activity_type = "start" AND b.activity_type = "end"
 GROUP BY a.machine_id;
+
+-- Problem 1667
+SELECT user_id, CONCAT(UPPER(LEFT(name, 1)), LOWER(SUBSTRING(name, 2))) AS name FROM Users
+ORDER BY user_id;
 
 -- Problem 1683
 SELECT tweet_id FROM Tweets
