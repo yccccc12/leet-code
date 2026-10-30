@@ -143,6 +143,13 @@ LEFT JOIN Examinations e ON s.student_id = e.student_id AND sub.subject_name = e
 GROUP BY s.student_id, s.student_name, sub.subject_name
 ORDER BY s.student_id, sub.subject_name
 
+-- Problem 1327
+SELECT p.product_name, SUM(o.unit) AS unit FROM Products p
+LEFT JOIN Orders o ON p.product_id = o.product_id
+WHERE order_date BETWEEN "2020-02-01" AND "2020-02-29"
+GROUP BY p.product_id
+HAVING SUM(o.unit) >= 100
+
 -- Problem 1378
 SELECT u.unique_id, e.name FROM Employees e
 LEFT JOIN EmployeeUNI u ON e.id = u.id; 
