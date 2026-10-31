@@ -16,6 +16,10 @@ SELECT c.name AS Customers FROM Customers c
 LEFT JOIN Orders o ON c.id = o.customerId
 WHERE o.customerId IS NULL;
 
+-- Problem 196
+DELETE b FROM Person a
+LEFT JOIN Person b ON a.email = b.email AND b.id > a.id;
+
 -- Problem 197
 SELECT a.id FROM Weather a
 INNER JOIN Weather b ON DATEDIFF(a.recordDate, b.recordDate) = 1
