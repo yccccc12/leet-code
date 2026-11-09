@@ -16,6 +16,20 @@ SELECT c.name AS Customers FROM Customers c
 LEFT JOIN Orders o ON c.id = o.customerId
 WHERE o.customerId IS NULL;
 
+-- Problem 185
+WITH Ranked_Employee AS (
+    SELECT
+    d.name AS Department,
+    e.name AS Employee,
+    DENSE_RANK() OVER (PARTITION BY e.departmentId ORDER BY e.salary DESC) AS salary_rank,
+    e.salary AS Salary
+    FROM Employee e
+    LEFT JOIN department d ON e.departmentId = d.id
+)
+
+SELECT Department, Employee, Salary FROM Ranked_Employee
+WHERE salary_rank <= 3;
+
 -- Problem 196
 DELETE b FROM Person a
 LEFT JOIN Person b ON a.email = b.email AND b.id > a.id;
