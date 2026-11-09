@@ -2,6 +2,12 @@
 SELECT Person.firstName, Person.lastName, Address.city, Address.state FROM Person
 LEFT JOIN Address ON Person.personId = Address.personId;
 
+-- Problem 176
+SELECT MAX(salary) AS SecondHighestSalary FROM (
+    SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) AS salary_rank FROM Employee
+) AS t 
+WHERE salary_rank = 2;
+
 -- Problem 181
 SELECT e.name AS Employee FROM Employee e
 WHERE e.salary > (SELECT m.salary FROM Employee m WHERE m.id = e.managerID);
