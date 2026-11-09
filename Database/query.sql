@@ -186,6 +186,14 @@ HAVING SUM(o.unit) >= 100
 SELECT u.unique_id, e.name FROM Employees e
 LEFT JOIN EmployeeUNI u ON e.id = u.id; 
 
+-- Problem 1484
+SELECT 
+    sell_date, 
+    COUNT(DISTINCT product) AS num_sold, 
+    GROUP_CONCAT(DISTINCT product SEPARATOR ",") AS products 
+FROM Activities
+GROUP BY sell_date;
+
 -- Problem 1517
 SELECT * FROM Users
 WHERE REGEXP_LIKE(mail, "^[a-zA-Z][a-zA-Z0-9._-]*@leetcode\\.com$", "c");
