@@ -73,6 +73,14 @@ SELECT class FROM Courses
 GROUP BY class
 HAVING COUNT(*) >= 5;
 
+-- Problem 610
+SELECT *,
+    CASE
+        WHEN x + y > z AND x + z > y AND y + z > x THEN "Yes"
+        ELSE "No"
+    END AS triangle
+FROM Triangle
+
 -- Problem 619
 SELECT MAX(num) AS num FROM
 (
