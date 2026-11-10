@@ -258,6 +258,23 @@ WHERE primary_flag = "Y" OR employee_id IN
         HAVING COUNT(*) = 1
     )
     
+-- Problem 1907
+SELECT "Low Salary" AS category,
+    COUNT(CASE WHEN income < 20000 THEN 1 END) AS accounts_count
+FROM Accounts
+
+UNION ALL
+
+SELECT "Average Salary",
+    COUNT(CASE WHEN income >= 20000 AND income <= 50000 THEN 1 END)
+From Accounts
+
+UNION ALL
+
+SELECT "High Salary",
+    COUNT(CASE WHEN income > 50000 THEN 1 END)
+From Accounts
+
 -- Problem 1934
 SELECT 
     s.user_id, 
