@@ -8,6 +8,12 @@ SELECT MAX(salary) AS SecondHighestSalary FROM (
 ) AS t 
 WHERE salary_rank = 2;
 
+-- Problem 180
+SELECT DISTINCT a.num AS ConsecutiveNums FROM Logs a
+INNER JOIN Logs b ON a.id = b.id - 1
+INNER JOIN Logs c ON b.id = c.id - 1
+WHERE a.num = b.num AND b.num = c.num
+
 -- Problem 181
 SELECT e.name AS Employee FROM Employee e
 WHERE e.salary > (SELECT m.salary FROM Employee m WHERE m.id = e.managerID);
