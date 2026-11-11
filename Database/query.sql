@@ -186,6 +186,20 @@ LEFT JOIN Examinations e ON s.student_id = e.student_id AND sub.subject_name = e
 GROUP BY s.student_id, s.student_name, sub.subject_name
 ORDER BY s.student_id, sub.subject_name
 
+-- Problem 1321
+SELECT visited_on, amount, average_amount FROM (
+    SELECT 
+        visited_on, 
+        SUM(total_amount) OVER (ORDER BY visited_on ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS amount,
+        ROUND(AVG(total_amount) OVER (ORDER BY visited_on ROWS BETWEEN 6 PRECEDING AND CURRENT ROW), 2) AS average_amount,
+        ROW_NUMBER() OVER (ORDER BY visited_on) AS rn
+    FROM (
+        SELECT visited_on, SUM(amount) AS total_amount FROM Customer
+        GROUP BY visited_on
+    ) AS t
+) AS u
+WHERE rn >= 7
+
 -- Problem 1327
 SELECT p.product_name, SUM(o.unit) AS unit FROM Products p
 LEFT JOIN Orders o ON p.product_id = o.product_id
