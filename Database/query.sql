@@ -49,6 +49,13 @@ WHERE a.temperature > b.temperature
 SELECT player_id, MIN(event_date) AS first_login FROM Activity
 GROUP BY player_id;
 
+-- Problem 550
+SELECT ROUND(COUNT(*) / (SELECT COUNT(DISTINCT player_id) FROM Activity), 2) AS fraction
+FROM Activity 
+WHERE (player_id, event_date) IN
+(SELECT player_id, MIN(event_date) + INTERVAL 1 DAY AS first_login_date FROM Activity
+GROUP BY player_id)
+
 -- Problem 570
 SELECT b.name FROM Employee a
 INNER JOIN Employee b ON a.managerId = b.id
