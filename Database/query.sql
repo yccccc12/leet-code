@@ -94,6 +94,17 @@ SELECT * FROM Cinema
 WHERE description != "boring" AND id % 2 = 1
 ORDER BY rating DESC;
 
+-- Problem 626
+SELECT
+    CASE
+        WHEN id % 2 = 1 AND id < (SELECT MAX(id) FROM Seat) THEN id + 1
+        WHEN id % 2 = 0 THEN id - 1
+        ELSE id
+    END AS id,
+    student
+FROM Seat
+ORDER BY id
+
 -- Problem 1045
 SELECT customer_id FROM Customer
 GROUP BY customer_id
