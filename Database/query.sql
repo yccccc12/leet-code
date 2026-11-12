@@ -86,6 +86,24 @@ SELECT class FROM Courses
 GROUP BY class
 HAVING COUNT(*) >= 5;
 
+-- Problem 602
+SELECT id, num FROM
+(
+    SELECT id, SUM(cnt) as num FROM
+    (
+        SELECT requester_id AS id, COUNT(*) AS cnt FROM RequestAccepted
+        GROUP BY requester_id
+
+        UNION ALL
+
+        SELECT accepter_id, COUNT(*) FROM RequestAccepted
+        GROUP BY accepter_id
+    ) AS t
+    GROUP BY id
+) AS s
+ORDER BY num DESC
+LIMIT 1;
+
 -- Problem 610
 SELECT *,
     CASE
