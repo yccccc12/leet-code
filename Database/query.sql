@@ -77,6 +77,22 @@ WHERE b.bonus IS NULL OR b.bonus < 1000;
 SELECT name FROM Customer
 WHERE referee_id != 2 OR referee_id IS NULL;
 
+-- Problem 585
+SELECT ROUND(SUM(tiv_2016), 2) AS tiv_2016 
+FROM Insurance 
+WHERE tiv_2015 IN 
+    (
+    SELECT tiv_2015 FROM Insurance
+    GROUP BY tiv_2015
+    HAVING COUNT(*) >= 2
+    )
+AND (lat, lon) IN 
+    (
+    SELECT lat, lon FROM Insurance
+    GROUP BY lat, lon
+    HAVING COUNT(*) <= 1
+    )
+    
 -- Problem 595
 SELECT name, population, area FROM World
 WHERE area >= 3000000 OR population >= 25000000;
@@ -176,6 +192,21 @@ SELECT DISTINCT(author_id) AS id FROM Views
 WHERE author_id = viewer_id
 ORDER BY author_id;
 
+-- Problem 1164
+WITH latest AS (
+    SELECT *, MAX(change_date) AS latest_date
+    FROM Products
+    WHERE change_date <= "2019-08-16"
+    GROUP BY product_id
+)
+
+SELECT
+    p.product_id,
+    IFNULL(q.new_price, 10) AS price
+FROM (SELECT DISTINCT product_id FROM Products) p
+LEFT JOIN latest l ON p.product_id = l.product_id
+LEFT JOIN Products q ON l.latest_date = q.change_date AND l.product_id = q.product_id
+
 -- Problem 1174
 SELECT
     ROUND(SUM(IF(order_date = customer_pref_delivery_date, 1, 0)) / COUNT(*) * 100, 2) AS immediate_percentage
@@ -192,6 +223,15 @@ SELECT
     SUM(IF(state = 'approved', amount, 0)) AS approved_total_amount
 FROM Transactions
 GROUP BY month, country
+
+-- Problem 1204
+SELECT person_name FROM (
+    SELECT person_name, SUM(weight) OVER (ORDER BY turn ASC) AS total_weight
+    FROM Queue
+) AS t
+WHERE total_weight <= 1000
+ORDER BY total_weight DESC
+LIMIT 1
 
 -- Problem 1211
 SELECT
