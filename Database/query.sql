@@ -238,6 +238,28 @@ WHERE order_date BETWEEN "2020-02-01" AND "2020-02-29"
 GROUP BY p.product_id
 HAVING SUM(o.unit) >= 100
 
+-- Problem 1341
+(
+    SELECT c.name AS results FROM MovieRating a
+    LEFT JOIN Movies b ON a.movie_id = b.movie_id
+    LEFT JOIN Users c ON a.user_id = c.user_id
+    GROUP BY a.user_id
+    ORDER BY COUNT(*) DESC, name ASC
+    LIMIT 1
+)
+
+UNION ALL
+
+(
+    SELECT b.title FROM MovieRating a
+    LEFT JOIN Movies b ON a.movie_id = b.movie_id
+    LEFT JOIN Users c ON a.user_id = c.user_id
+    WHERE a.created_at BETWEEN "2020-02-01" AND "2020-02-29"
+    GROUP BY a.movie_id
+    ORDER BY AVG(rating) DESC, b.title ASC
+    LIMIT 1
+)
+
 -- Problem 1378
 SELECT u.unique_id, e.name FROM Employees e
 LEFT JOIN EmployeeUNI u ON e.id = u.id; 
